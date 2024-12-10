@@ -23,9 +23,8 @@ public class ExamplePlayer : MonoBehaviour
 
     private void Move()
     {
-        Vector3 movement = new Vector3(movementInput.x, 0, movementInput.y);
-        movement.Normalize();
-        movement *= movementSpeed;
+        Vector3 movement = new Vector3(movementInput.x, 0, movementInput.y).normalized;
+        movement *= movementSpeed * Time.deltaTime;
         cc.Move(movement);
     }
 }
