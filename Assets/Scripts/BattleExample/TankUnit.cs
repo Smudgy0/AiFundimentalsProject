@@ -1,8 +1,6 @@
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyTeamBattleExample : MonoBehaviour
+public class TankUnit : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed;
@@ -21,9 +19,9 @@ public class EnemyTeamBattleExample : MonoBehaviour
     public bool Team1 = false;
     public bool Team2 = false;
 
-    bool takingDamage = false;
-
     float distance;
+
+    bool takingDamage = false;
 
     int HP;
 
@@ -32,7 +30,7 @@ public class EnemyTeamBattleExample : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         MT = GetComponent<Material>();
 
-        int RandomHP = Random.Range(3,6);
+        int RandomHP = Random.Range(20,31);
         HP = RandomHP * HPMult;
 
         if (tag == "Team1")
@@ -52,7 +50,7 @@ public class EnemyTeamBattleExample : MonoBehaviour
 
         if (takingDamage == true)
         {
-            HP = HP - 2;
+            HP = HP - 1;
             if (HP <= 0)
             {
                 Destroy(this.gameObject);
@@ -66,9 +64,13 @@ public class EnemyTeamBattleExample : MonoBehaviour
         {
             targetUnit = GameObject.FindWithTag("Team2");
         }
-        if (Team2 == true)
+        else if (Team2 == true)
         {
             targetUnit = GameObject.FindWithTag("Team1");
+        }
+        else
+        {
+            return;
         }
         targetTransform = targetUnit.transform;
     }
@@ -110,7 +112,7 @@ public class EnemyTeamBattleExample : MonoBehaviour
             takingDamage = true;
         }
 
-        else 
+        else
         {
             takingDamage = false;
         }
