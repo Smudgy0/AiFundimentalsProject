@@ -11,6 +11,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Vector Example.unity
     guid: 319340dda6ba84f4182ae189527f643d
+  - enabled: 1
+    path: Assets/Scenes/Waypoint Example.unity
+    guid: 07abdf4b4d744b54da3a2e0002f90d4c
+  - enabled: 1
+    path: Assets/Scenes/TestScene.unity
+    guid: 18456a52499581d40afbdf9ec8b46428
+  - enabled: 1
+    path: Assets/Scenes/Rigidbody Following.unity
+    guid: 5c531027ec25528459cef6fe0cb23204
+  - enabled: 1
+    path: Assets/Scenes/RandomMovementExample.unity
+    guid: 2e0c350c2903fd547951a1cc2d792136
+  - enabled: 1
+    path: Assets/Scenes/NavmeshExample.unity
+    guid: 7544b4c1ed9a7564ba271c4b10b4c307
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0

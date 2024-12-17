@@ -52,7 +52,7 @@ public class EnemyTeamBattleExample : MonoBehaviour
 
         if (takingDamage == true)
         {
-            HP = HP - 2;
+            HP -= 2;
             if (HP <= 0)
             {
                 Destroy(this.gameObject);
@@ -87,7 +87,7 @@ public class EnemyTeamBattleExample : MonoBehaviour
         if (Vector3.Distance(transform.position, targetTransform.position) >= stoppingDistance)
         {
             // pos moving towards = (1 -               -1)                        change magnitude to only be 1
-            Vector3 direction = (transform.position - targetTransform.position).normalized;
+            Vector3 direction = (targetTransform.position - transform.position).normalized;
             direction *= movementSpeed;
             rb.linearVelocity = direction;
         }

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Team1
   - Team2
+  - Waypoint
+  - Ballon
+  - Damageballon
   layers:
   - Default
   - TransparentFX
@@ -13,8 +16,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 

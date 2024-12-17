@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TankUnit : MonoBehaviour
+public class Units : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed;
@@ -10,6 +10,7 @@ public class TankUnit : MonoBehaviour
     [SerializeField] public Transform targetTransform;
 
     [SerializeField] public int HPMult;
+    [SerializeField] public int DamageTaken;
 
     public GameObject targetUnit;
 
@@ -50,7 +51,7 @@ public class TankUnit : MonoBehaviour
 
         if (takingDamage == true)
         {
-            HP = HP - 1;
+            HP -= DamageTaken;
             if (HP <= 0)
             {
                 Destroy(this.gameObject);
@@ -89,7 +90,7 @@ public class TankUnit : MonoBehaviour
         if (Vector3.Distance(transform.position, targetTransform.position) >= stoppingDistance)
         {
             // pos moving towards = (1 -               -1)                        change magnitude to only be 1
-            Vector3 direction = (transform.position - targetTransform.position).normalized;
+            Vector3 direction = (targetTransform.position - transform.position).normalized;
             direction *= movementSpeed;
             rb.linearVelocity = direction;
         }

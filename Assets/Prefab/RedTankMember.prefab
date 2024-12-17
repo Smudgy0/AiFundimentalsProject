@@ -692,11 +692,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b882ef7c3bf072340b3eb1a046061b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: -10
+  movementSpeed: 10
   rotationSpeed: 0.5
   stoppingDistance: 0
   targetTransform: {fileID: 0}
   HPMult: 20
+  DamageTaken: 1
   targetUnit: {fileID: 0}
   Team1: 0
   Team2: 0
