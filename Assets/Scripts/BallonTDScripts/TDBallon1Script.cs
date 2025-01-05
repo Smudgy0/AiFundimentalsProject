@@ -62,7 +62,7 @@ public class TDBallon1Script : MonoBehaviour
         if(other.CompareTag("Damageballon"))
         {
             Destroy(other.gameObject);
-            BalloonHP--;
+            BalloonHP = BalloonHP - 10;
             if(BalloonHP <= 0)
             {
                 TDM.KillBloon();
