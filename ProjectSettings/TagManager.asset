@@ -9,11 +9,12 @@ TagManager:
   - Waypoint
   - Ballon
   - Damageballon
+  - Buildings
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Worskshops
   - Water
   - UI
   - Player
