@@ -10,16 +10,13 @@ public class PlanetIDGrabber : MonoBehaviour
     public GameObject LR;
     public ManpowerManager MM;
 
+    bool InvokeOngoing = false;
+
     int control;
 
     private void Awake()
     {
         UIM = FindAnyObjectByType<UiManager>();
-    }
-
-    public void PID1()
-    {
-
     }
 
     private void Start()
@@ -39,6 +36,11 @@ public class PlanetIDGrabber : MonoBehaviour
         planet = Instantiate(planet);
     }
 
+    private void Update()
+    {
+        EnemyTroops();
+    }
+
     void ManpowerCreation()
     {
         if (NotUI == true)
@@ -48,5 +50,24 @@ public class PlanetIDGrabber : MonoBehaviour
                 MM.AddManpower();
             }
         }
+    }
+
+    void EnemyTroops()
+    {
+        if (ControlledByPlayer == false && InvokeOngoing == false)
+        {
+            InvokeRepeating("AddEnemyTroops", 1, 2);
+            Debug.Log("readEnemyTroops");
+            InvokeOngoing = true;
+        }
+        else if (ControlledByPlayer == true && InvokeOngoing == false)
+        {
+            InvokeOngoing = false;
+        }
+    }
+
+    void AddEnemyTroops()
+    {
+        planet.eTroopCount = planet.eTroopCount + 10;
     }
 }

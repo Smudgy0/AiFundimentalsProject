@@ -10,6 +10,7 @@ public class UiManager : MonoBehaviour
     public TMP_Text IDT;
     public TMP_Text CT;
     public TMP_Text troopCount;
+    public TMP_Text EtroopCount;
     public TMP_Text alliedControl;
     public TMP_Text enemyControl;
 
@@ -73,9 +74,15 @@ public class UiManager : MonoBehaviour
     {
         IDT.text = planetClicked.planet.planetName.ToString();
         troopCount.text = planetClicked.planet.pTroopCount.ToString();
+        EtroopCount.text = planetClicked.planet.eTroopCount.ToString();
         alliedControl.text = planetClicked.planet.alliedControl.ToString();
         enemyControl.text = planetClicked.planet.enemyControl.ToString();
         PlanetUI.SetActive(true);
+    }
+
+    void UpdateValues(PlanetIDGrabber planetClicked)
+    {
+        EtroopCount.text = planetClicked.planet.eTroopCount.ToString();
     }
 
     public void CheckManpower()
