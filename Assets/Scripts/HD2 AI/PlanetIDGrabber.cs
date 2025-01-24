@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using NUnit.Framework.Constraints;
 using NUnit.Framework.Internal;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlanetIDGrabber : MonoBehaviour
@@ -13,20 +14,14 @@ public class PlanetIDGrabber : MonoBehaviour
     [SerializeField] InvasionManager InvasionMScript;
     private UiManager UIM;
     [SerializeField] GameObject[] ConnectedPlanets;
-    [SerializeField] bool ControlledByPlayer = true;
     [SerializeField] bool NotUI = true;
     public GameObject LR;
     public ManpowerManager MM;
 
     bool InvokeOngoing = false;
-    bool InvasionActive = false;
-    bool TroopsInbound = false;
+    bool OngoingLosses = false;
 
-    int control;
-
-    int troopSpeedDelay = 1;
-
-    int SiegedPlanetIDValue = 0;
+    float Troopdif;
 
     private void Awake()
     {
@@ -35,7 +30,6 @@ public class PlanetIDGrabber : MonoBehaviour
 
     private void Start()
     {
-        InvasionActive = false;
 
         if (NotUI == true)
         {
@@ -49,30 +43,163 @@ public class PlanetIDGrabber : MonoBehaviour
             }
         }
 
-        //planet = Instantiate(planet);
+        InvasionMScript.SetupPlanets();
 
         for (int i = 0; i < InvasionMScript.ListOfPlanets.Length; i++)
         {
             if (PlanetObjectIdentifyer == InvasionMScript.ListOfPlanets[i].planetID)
             {
                 planet = InvasionMScript.ListOfPlanets[i];
+                Debug.Log("Got planet " + planet.name);
             }
         }
+
+        planet.invasionActive = false;
+        planet.troopsInbound = false;
+
+        if (planet.name == "Pione(Clone)" || planet.name == "Oshuna(Clone)") {
+            Debug.Log("Invade at start planet " + planet.name);
+            planet.invasionActive = true;
+            planet.troopsInbound = false;
+        }
+
+        Debug.Log("on start " + planet.name + 
+            " troopsInbound " + planet.troopsInbound +
+            " invasionActive " + planet.invasionActive
+        );
     }
 
     void Update()
     {
         EnemyTroops();
-        Invasion();
+        LiveCombat();
 
-        if (InvasionActive == true && TroopsInbound == false)
+        if (planet.invasionActive == true && planet.troopsInbound == false)
         {
+            Debug.Log("Adding troops" + planet.name);
             StartCoroutine("AddInvadingEnemyTroops");
         }
-        else if (InvasionActive == false)
+        else if (planet.invasionActive == false)
         {
             StopCoroutine("AddInvadingEnemyTroops");
-            TroopsInbound = false;
+            planet.troopsInbound = false;
+        }
+    }
+
+    void LiveCombat()
+    {
+        if (planet.eTroopCount > planet.pTroopCount)
+        {
+            Troopdif = planet.eTroopCount - planet.pTroopCount;
+            Troopdif = Troopdif / 1000000;
+            planet.alliedControl = planet.alliedControl - Troopdif;
+            planet.enemyControl = planet.enemyControl + Troopdif;
+
+            if (OngoingLosses == false)
+            {
+                OngoingLosses = true;
+                StartCoroutine("ComabtLosses");
+            }
+        }
+
+        if (planet.pTroopCount > planet.eTroopCount)
+        {
+            Troopdif = planet.pTroopCount - planet.eTroopCount;
+            Troopdif = Troopdif / 1000000;
+            planet.enemyControl = planet.enemyControl - Troopdif;
+            planet.alliedControl = planet.alliedControl + Troopdif;
+
+            if (OngoingLosses == false)
+            {
+                OngoingLosses = true;
+                StartCoroutine("ComabtLosses");
+            }
+        }
+
+        if (planet.alliedControl > 100)
+        {
+            planet.alliedControl = 100;
+        }
+
+        else if (planet.alliedControl < 0)
+        {
+            planet.alliedControl = 0;
+        }
+
+        if (planet.enemyControl > 100)
+        {
+            planet.enemyControl = 100;
+            StopCoroutine("AddInvadingEnemyTroops");
+            OngoingLosses = true;
+            StopCoroutine("ComabtLosses");
+        }
+
+        else if (planet.enemyControl < 0)
+        {
+            planet.enemyControl = 0;
+        }
+
+        if (planet.alliedControl == 100)
+        {
+            if (!planet.PlayerControlled)
+            {
+                Debug.Log(planet.name + " has been taken");
+            }
+
+            bool allNeighboursPlayerControlled = true;
+
+            // Check whether any neighboring planets are under enemy control
+            for (int i = 0; i < planet.ConnectedWorlds.Length; i++)
+            {
+                Planet current = InvasionMScript.findPlanet(planet.ConnectedWorlds[i].planetID);
+
+                if (!current.PlayerControlled) {
+                    allNeighboursPlayerControlled = false;
+                    break;
+                }
+            }
+
+            if (allNeighboursPlayerControlled) {
+                planet.invasionActive = false;
+            }
+
+            // Set next planet to be attacked?
+            if(planet.invasionActive == false)
+            {
+                CancelInvoke("AddEnemyTroops");
+                StopCoroutine("AddInvadingEnemyTroops");
+                planet.eTroopCount = 0;
+            }
+            planet.PlayerControlled = true;
+            OngoingLosses = true;
+            StopCoroutine("ComabtLosses");
+        }
+        
+        if (planet.enemyControl == 100)
+        {
+            if (planet.PlayerControlled)
+            {
+                Debug.Log(planet.name + " has fallen");
+
+                planet.PlayerControlled = false;
+
+                for (int i = 0; i < planet.ConnectedWorlds.Length; i++)
+                {
+                    Planet current = InvasionMScript.findPlanet(planet.ConnectedWorlds[i].planetID);
+
+                    Debug.Log(current.name + 
+                        " PlayerControlled " + current.PlayerControlled +
+                        " invasionActive " + current.invasionActive
+                    );
+
+                    if (current.PlayerControlled && current.invasionActive == false)
+                    {
+                        Debug.Log(current.name + "is next planet to be attacked");
+                        current.invasionActive = true;
+                        current.troopsInbound = false;
+                    }
+                }
+            }
         }
     }
 
@@ -80,34 +207,23 @@ public class PlanetIDGrabber : MonoBehaviour
     {
         if (NotUI == true)
         {
-            if (ControlledByPlayer == true)
+            if (planet.PlayerControlled == true)
             {
                 MM.AddManpower();
             }
         }
     }
 
-    void Invasion()
-    {
-
-        for (int i = 0; i < planet.ConnectedWorlds.Length; i++)
-        {
-            if (planet.ConnectedWorlds[i].PlayerControlled == false)
-            {
-                InvasionActive = true;
-            }
-        }
-    }
 
     void EnemyTroops()
     {
-        if (ControlledByPlayer == false && InvokeOngoing == false)
+        if (planet.PlayerControlled == false && InvokeOngoing == false)
         {
             InvokeRepeating("AddEnemyTroops", 1, 2);
             Debug.Log("readEnemyTroops");
             InvokeOngoing = true;
         }
-        else if (ControlledByPlayer == true && InvokeOngoing == false)
+        else if (planet.PlayerControlled == true && InvokeOngoing == false)
         {
             InvokeOngoing = false;
         }
@@ -118,18 +234,18 @@ public class PlanetIDGrabber : MonoBehaviour
         planet.eTroopCount = planet.eTroopCount + 100;
     }
 
-    /*void AddInvadingEnemyTroops()
-    {
-        planet.eTroopCount = planet.eTroopCount + 25;
-        Debug.Log(planet.planetName);
-    }*/
-
     IEnumerator AddInvadingEnemyTroops()
     {
-        TroopsInbound = true;
+        planet.troopsInbound = true;
         yield return new WaitForSeconds(1);
         planet.eTroopCount = planet.eTroopCount + 25;
-        Debug.Log(planet.planetName);
-        TroopsInbound = false;
+        planet.troopsInbound = false;
+    }
+
+    IEnumerator ComabtLosses()
+    {
+        yield return new WaitForSeconds(5);
+        planet.eTroopCount -= 100;
+        planet.pTroopCount -= 100;
     }
 }

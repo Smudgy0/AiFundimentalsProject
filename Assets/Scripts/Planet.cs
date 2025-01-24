@@ -11,4 +11,6 @@ public class Planet : ScriptableObject
     public float enemyControl;
     public Planet[] ConnectedWorlds;
     public bool PlayerControlled;
+    public bool invasionActive = false;
+    public bool troopsInbound = false;
 }

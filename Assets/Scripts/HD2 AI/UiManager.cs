@@ -56,8 +56,9 @@ public class UiManager : MonoBehaviour
             {
                 if(hit.collider.TryGetComponent<PlanetIDGrabber>(out PlanetIDGrabber PIG))
                 {
-                    OpenUI(PIG);
                     currentlySelectedPlanet = PIG.planet;
+                    OpenUI();
+
                     return true;
                 }
             }
@@ -70,25 +71,33 @@ public class UiManager : MonoBehaviour
     {
         //StopCoroutine("UpdateTroopValue");
         PlanetUI.SetActive(false);
+        currentlySelectedPlanet = null;
     }
 
-    public void OpenUI(PlanetIDGrabber planetClicked)
+    public void OpenUI()
     {
         //StopCoroutine("UpdateTroopValue");
-        IDT.text = planetClicked.planet.planetName.ToString();
-        troopCount.text = planetClicked.planet.pTroopCount.ToString();
-        EtroopCount.text = planetClicked.planet.eTroopCount.ToString();
-        alliedControl.text = planetClicked.planet.alliedControl.ToString();
-        enemyControl.text = planetClicked.planet.enemyControl.ToString();
+        IDT.text = currentlySelectedPlanet.planetName.ToString();
+        troopCount.text = currentlySelectedPlanet.pTroopCount.ToString();
+        EtroopCount.text = currentlySelectedPlanet.eTroopCount.ToString();
+        alliedControl.text = currentlySelectedPlanet.alliedControl.ToString();
+        enemyControl.text = currentlySelectedPlanet.enemyControl.ToString();
+
         PlanetUI.SetActive(true);
-        //StartCoroutine("UpdateTroopValue");
     }
 
-    /*IEnumerator UpdateTroopValue(PlanetIDGrabber planetClicked)
+    public void UpdatePlanetPanel()
     {
-        yield return new WaitForSeconds(1);
-        EtroopCount.text = planetClicked.planet.eTroopCount.ToString();
-    }*/
+        if (!currentlySelectedPlanet) {
+            return;
+        }
+
+        // Debug.Log("Updating text");
+
+        EtroopCount.text = currentlySelectedPlanet.eTroopCount.ToString();
+        alliedControl.text = currentlySelectedPlanet.alliedControl.ToString();
+        enemyControl.text = currentlySelectedPlanet.enemyControl.ToString();
+    }
 
     public void CheckManpower()
     {
@@ -101,6 +110,8 @@ public class UiManager : MonoBehaviour
         {
             Debug.Log("Player hit");
         }
+
+         UpdatePlanetPanel();
     }
 
     private void OnDrawGizmos()

@@ -8,7 +8,7 @@ public class ManpowerManager : MonoBehaviour
 
     public void AddManpower()
     {
-        Manpower = Manpower + 5;
+        Manpower = Manpower + 500;
     }
 
     private void Update()
