@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class UiManager : MonoBehaviour
 {
@@ -67,23 +68,27 @@ public class UiManager : MonoBehaviour
     }
     public void CloseUI()
     {
+        //StopCoroutine("UpdateTroopValue");
         PlanetUI.SetActive(false);
     }
 
     public void OpenUI(PlanetIDGrabber planetClicked)
     {
+        //StopCoroutine("UpdateTroopValue");
         IDT.text = planetClicked.planet.planetName.ToString();
         troopCount.text = planetClicked.planet.pTroopCount.ToString();
         EtroopCount.text = planetClicked.planet.eTroopCount.ToString();
         alliedControl.text = planetClicked.planet.alliedControl.ToString();
         enemyControl.text = planetClicked.planet.enemyControl.ToString();
         PlanetUI.SetActive(true);
+        //StartCoroutine("UpdateTroopValue");
     }
 
-    void UpdateValues(PlanetIDGrabber planetClicked)
+    /*IEnumerator UpdateTroopValue(PlanetIDGrabber planetClicked)
     {
+        yield return new WaitForSeconds(1);
         EtroopCount.text = planetClicked.planet.eTroopCount.ToString();
-    }
+    }*/
 
     public void CheckManpower()
     {
