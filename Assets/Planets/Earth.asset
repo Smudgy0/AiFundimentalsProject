@@ -18,3 +18,8 @@ MonoBehaviour:
   eTroopCount: 0
   alliedControl: 100
   enemyControl: 0
+  ConnectedWorlds:
+  - {fileID: 11400000, guid: e0e92826bea91e9478cce123a251a57c, type: 2}
+  - {fileID: 11400000, guid: 195b32207074bb14fac0f8048c7e9943, type: 2}
+  - {fileID: 11400000, guid: b7fafa5dce1c8b84691602803d970e28, type: 2}
+  PlayerControlled: 1

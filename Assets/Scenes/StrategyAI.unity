@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 153280094}
   - component: {fileID: 153280093}
   m_Layer: 8
-  m_Name: Planet_4
+  m_Name: Uton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,6 +303,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 11400000, guid: 195b32207074bb14fac0f8048c7e9943, type: 2}
+  PlanetObjectIdentifyer: 3
+  InvasionMScript: {fileID: 330705698}
   ConnectedPlanets:
   - {fileID: 1805086463}
   - {fileID: 963477850}
@@ -398,7 +400,7 @@ GameObject:
   - component: {fileID: 172195067}
   - component: {fileID: 172195066}
   m_Layer: 8
-  m_Name: Planet_7
+  m_Name: Oshuna
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -432,6 +434,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 11400000, guid: 06edd6830c257d541aeafe57662df313, type: 2}
+  PlanetObjectIdentifyer: 6
+  InvasionMScript: {fileID: 330705698}
   ConnectedPlanets:
   - {fileID: 203652517}
   - {fileID: 804362831}
@@ -527,7 +531,7 @@ GameObject:
   - component: {fileID: 203652520}
   - component: {fileID: 203652523}
   m_Layer: 8
-  m_Name: Planet_2
+  m_Name: Dres
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -635,6 +639,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 11400000, guid: e0e92826bea91e9478cce123a251a57c, type: 2}
+  PlanetObjectIdentifyer: 1
+  InvasionMScript: {fileID: 330705698}
   ConnectedPlanets:
   - {fileID: 1805086463}
   - {fileID: 1142689351}
@@ -1052,6 +1058,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 302935817}
   m_CullTransparentMesh: 1
+--- !u!1 &330705697
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 330705699}
+  - component: {fileID: 330705698}
+  m_Layer: 0
+  m_Name: InvasionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &330705698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330705697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c507fe4bf7f196b4080af416d0fa6ccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListOfPlanets:
+  - {fileID: 11400000, guid: 32ac1bd9e1535754fae51c583b7be9af, type: 2}
+  - {fileID: 11400000, guid: e0e92826bea91e9478cce123a251a57c, type: 2}
+  - {fileID: 11400000, guid: 993c2280f7e3636488f3e5fb8240aa13, type: 2}
+  - {fileID: 11400000, guid: 195b32207074bb14fac0f8048c7e9943, type: 2}
+  - {fileID: 11400000, guid: b7fafa5dce1c8b84691602803d970e28, type: 2}
+  - {fileID: 11400000, guid: 96bc8a2fb2839384d839fc185037798c, type: 2}
+  - {fileID: 11400000, guid: 06edd6830c257d541aeafe57662df313, type: 2}
+  - {fileID: 11400000, guid: f609fb868ab1bf74cb07934de90ae027, type: 2}
+--- !u!4 &330705699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330705697}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &398087363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,7 +1894,7 @@ GameObject:
   - component: {fileID: 804362834}
   - component: {fileID: 804362833}
   m_Layer: 8
-  m_Name: Planet_6
+  m_Name: Ezec
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1869,6 +1928,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 11400000, guid: 96bc8a2fb2839384d839fc185037798c, type: 2}
+  PlanetObjectIdentifyer: 5
+  InvasionMScript: {fileID: 330705698}
   ConnectedPlanets:
   - {fileID: 1142689351}
   - {fileID: 172195064}
@@ -2097,7 +2158,7 @@ GameObject:
   - component: {fileID: 904189462}
   - component: {fileID: 904189461}
   m_Layer: 8
-  m_Name: Planet_5
+  m_Name: Yanzi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2131,6 +2192,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 11400000, guid: b7fafa5dce1c8b84691602803d970e28, type: 2}
+  PlanetObjectIdentifyer: 4
+  InvasionMScript: {fileID: 330705698}
   ConnectedPlanets:
   - {fileID: 1805086463}
   ControlledByPlayer: 1
@@ -2496,7 +2559,7 @@ GameObject:
   - component: {fileID: 963477853}
   - component: {fileID: 963477852}
   m_Layer: 8
-  m_Name: Planet_8
+  m_Name: Herth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2530,6 +2593,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 11400000, guid: f609fb868ab1bf74cb07934de90ae027, type: 2}
+  PlanetObjectIdentifyer: 7
+  InvasionMScript: {fileID: 330705698}
   ConnectedPlanets:
   - {fileID: 1142689351}
   - {fileID: 153280091}
@@ -2974,7 +3039,7 @@ GameObject:
   - component: {fileID: 1142689354}
   - component: {fileID: 1142689357}
   m_Layer: 8
-  m_Name: Planet_3
+  m_Name: Pione
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3082,6 +3147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 11400000, guid: 993c2280f7e3636488f3e5fb8240aa13, type: 2}
+  PlanetObjectIdentifyer: 2
+  InvasionMScript: {fileID: 330705698}
   ConnectedPlanets:
   - {fileID: 203652517}
   - {fileID: 804362831}
@@ -5137,7 +5204,7 @@ GameObject:
   - component: {fileID: 1805086465}
   - component: {fileID: 1805086471}
   m_Layer: 8
-  m_Name: Planet_1
+  m_Name: Earth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5245,6 +5312,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planet: {fileID: 11400000, guid: 32ac1bd9e1535754fae51c583b7be9af, type: 2}
+  PlanetObjectIdentifyer: 0
+  InvasionMScript: {fileID: 330705698}
   ConnectedPlanets:
   - {fileID: 203652517}
   - {fileID: 153280091}
@@ -5732,3 +5801,4 @@ SceneRoots:
   - {fileID: 7408699806979813797}
   - {fileID: 1299524897}
   - {fileID: 519261965}
+  - {fileID: 330705699}

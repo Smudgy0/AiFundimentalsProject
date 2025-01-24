@@ -9,4 +9,6 @@ public class Planet : ScriptableObject
     public int eTroopCount = 0;
     public float alliedControl;
     public float enemyControl;
+    public Planet[] ConnectedWorlds;
+    public bool PlayerControlled;
 }
