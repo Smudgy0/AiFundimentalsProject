@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using NUnit.Framework.Constraints;
 using NUnit.Framework.Internal;
@@ -20,6 +19,7 @@ public class PlanetIDGrabber : MonoBehaviour
 
     bool InvokeOngoing = false;
     bool OngoingLosses = false;
+    int EnemySizePicker;
 
     float Troopdif;
 
@@ -57,7 +57,7 @@ public class PlanetIDGrabber : MonoBehaviour
         planet.invasionActive = false;
         planet.troopsInbound = false;
 
-        if (planet.name == "Pione(Clone)" || planet.name == "Oshuna(Clone)") {
+        if (planet.name == "Ezec(Clone)") {
             Debug.Log("Invade at start planet " + planet.name);
             planet.invasionActive = true;
             planet.troopsInbound = false;
@@ -73,6 +73,8 @@ public class PlanetIDGrabber : MonoBehaviour
     {
         EnemyTroops();
         LiveCombat();
+
+        EnemySizePicker = Random.Range(0, 4);
 
         if (planet.invasionActive == true && planet.troopsInbound == false)
         {
@@ -231,14 +233,42 @@ public class PlanetIDGrabber : MonoBehaviour
 
     void AddEnemyTroops()
     {
-        planet.eTroopCount = planet.eTroopCount + 100;
+        if(EnemySizePicker == 1)
+        {
+            planet.eTroopCount = planet.eTroopCount + 50;
+        }
+
+        else if(EnemySizePicker == 2)
+        {
+            planet.eTroopCount = planet.eTroopCount + 100;
+        }
+
+        else if(EnemySizePicker == 3)
+        {
+            planet.eTroopCount = planet.eTroopCount + 150;
+        }
     }
 
     IEnumerator AddInvadingEnemyTroops()
     {
+
         planet.troopsInbound = true;
         yield return new WaitForSeconds(1);
-        planet.eTroopCount = planet.eTroopCount + 25;
+        if(EnemySizePicker == 1)
+        {
+            planet.eTroopCount = planet.eTroopCount + 10;
+        }
+
+        else if(EnemySizePicker == 2)
+        {
+            planet.eTroopCount = planet.eTroopCount + 25;
+        }
+
+        else if(EnemySizePicker == 3)
+        {
+            planet.eTroopCount = planet.eTroopCount + 50;
+        }
+
         planet.troopsInbound = false;
     }
 

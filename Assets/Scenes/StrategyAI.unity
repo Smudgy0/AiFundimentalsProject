@@ -308,7 +308,6 @@ MonoBehaviour:
   ConnectedPlanets:
   - {fileID: 1805086463}
   - {fileID: 963477850}
-  ControlledByPlayer: 1
   NotUI: 1
   LR: {fileID: 8290523893928733630, guid: 914697f5224775d4ab8bad1e629505be, type: 3}
   MM: {fileID: 1921907347}
@@ -439,7 +438,6 @@ MonoBehaviour:
   ConnectedPlanets:
   - {fileID: 203652517}
   - {fileID: 804362831}
-  ControlledByPlayer: 1
   NotUI: 1
   LR: {fileID: 8290523893928733630, guid: 914697f5224775d4ab8bad1e629505be, type: 3}
   MM: {fileID: 1921907347}
@@ -516,6 +514,135 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172195064}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &192286024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 192286025}
+  - component: {fileID: 192286029}
+  - component: {fileID: 192286028}
+  - component: {fileID: 192286027}
+  - component: {fileID: 192286026}
+  m_Layer: 8
+  m_Name: Ion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &192286025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192286024}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.92, y: 0, z: 5.36}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1401584993}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &192286026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192286024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff87045d3083c94880eae88675d6b00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planet: {fileID: 0}
+  PlanetObjectIdentifyer: 8
+  InvasionMScript: {fileID: 330705698}
+  ConnectedPlanets:
+  - {fileID: 804362831}
+  NotUI: 1
+  LR: {fileID: 8290523893928733630, guid: 914697f5224775d4ab8bad1e629505be, type: 3}
+  MM: {fileID: 1921907347}
+--- !u!135 &192286027
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192286024}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &192286028
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192286024}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 6156b2babae3782408b52be71786da7a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &192286029
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192286024}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &203652517
 GameObject:
@@ -644,7 +771,6 @@ MonoBehaviour:
   ConnectedPlanets:
   - {fileID: 1805086463}
   - {fileID: 1142689351}
-  ControlledByPlayer: 1
   NotUI: 1
   LR: {fileID: 8290523893928733630, guid: 914697f5224775d4ab8bad1e629505be, type: 3}
   MM: {fileID: 1921907347}
@@ -1096,6 +1222,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 96bc8a2fb2839384d839fc185037798c, type: 2}
   - {fileID: 11400000, guid: 06edd6830c257d541aeafe57662df313, type: 2}
   - {fileID: 11400000, guid: f609fb868ab1bf74cb07934de90ae027, type: 2}
+  - {fileID: 11400000, guid: 1a24c13dc15ba244bb9077111c9dc582, type: 2}
+  isReady: 0
 --- !u!4 &330705699
 Transform:
   m_ObjectHideFlags: 0
@@ -1933,7 +2061,7 @@ MonoBehaviour:
   ConnectedPlanets:
   - {fileID: 1142689351}
   - {fileID: 172195064}
-  ControlledByPlayer: 0
+  - {fileID: 192286024}
   NotUI: 1
   LR: {fileID: 8290523893928733630, guid: 914697f5224775d4ab8bad1e629505be, type: 3}
   MM: {fileID: 1921907347}
@@ -2196,7 +2324,6 @@ MonoBehaviour:
   InvasionMScript: {fileID: 330705698}
   ConnectedPlanets:
   - {fileID: 1805086463}
-  ControlledByPlayer: 1
   NotUI: 1
   LR: {fileID: 8290523893928733630, guid: 914697f5224775d4ab8bad1e629505be, type: 3}
   MM: {fileID: 1921907347}
@@ -2598,7 +2725,6 @@ MonoBehaviour:
   ConnectedPlanets:
   - {fileID: 1142689351}
   - {fileID: 153280091}
-  ControlledByPlayer: 1
   NotUI: 1
   LR: {fileID: 8290523893928733630, guid: 914697f5224775d4ab8bad1e629505be, type: 3}
   MM: {fileID: 1921907347}
@@ -3153,7 +3279,6 @@ MonoBehaviour:
   - {fileID: 203652517}
   - {fileID: 804362831}
   - {fileID: 963477850}
-  ControlledByPlayer: 1
   NotUI: 1
   LR: {fileID: 8290523893928733630, guid: 914697f5224775d4ab8bad1e629505be, type: 3}
   MM: {fileID: 1921907347}
@@ -3916,6 +4041,7 @@ Transform:
   - {fileID: 804362832}
   - {fileID: 172195065}
   - {fileID: 963477851}
+  - {fileID: 192286025}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1435562890
@@ -5318,7 +5444,6 @@ MonoBehaviour:
   - {fileID: 203652517}
   - {fileID: 153280091}
   - {fileID: 904189459}
-  ControlledByPlayer: 1
   NotUI: 1
   LR: {fileID: 8290523893928733630, guid: 914697f5224775d4ab8bad1e629505be, type: 3}
   MM: {fileID: 1921907347}
