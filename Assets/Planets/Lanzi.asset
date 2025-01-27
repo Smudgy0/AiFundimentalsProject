@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9dc131db6aa5a044874ad7d5aae6b0b, type: 3}
-  m_Name: Uton
+  m_Name: Lanzi
   m_EditorClassIdentifier: 
-  planetID: 3
-  planetName: Uton
+  planetID: 13
+  planetName: Lanzi
   pTroopCount: 0
   eTroopCount: 0
   alliedControl: 100
   enemyControl: 0
   ConnectedWorlds:
-  - {fileID: 11400000, guid: 32ac1bd9e1535754fae51c583b7be9af, type: 2}
+  - {fileID: 11400000, guid: ab4e099704119a547a4c5706d6d6d1d9, type: 2}
   - {fileID: 11400000, guid: f609fb868ab1bf74cb07934de90ae027, type: 2}
-  - {fileID: 11400000, guid: 2997fb0c32e0dbb40983e7c3d2464dbb, type: 2}
+  - {fileID: 11400000, guid: 195b32207074bb14fac0f8048c7e9943, type: 2}
   PlayerControlled: 1
   invasionActive: 0
   troopsInbound: 0

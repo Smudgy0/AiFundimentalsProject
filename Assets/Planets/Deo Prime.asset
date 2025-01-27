@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9dc131db6aa5a044874ad7d5aae6b0b, type: 3}
-  m_Name: Uton
+  m_Name: Deo Prime
   m_EditorClassIdentifier: 
-  planetID: 3
-  planetName: Uton
+  planetID: 10
+  planetName: Deo Prime
   pTroopCount: 0
   eTroopCount: 0
   alliedControl: 100
   enemyControl: 0
   ConnectedWorlds:
-  - {fileID: 11400000, guid: 32ac1bd9e1535754fae51c583b7be9af, type: 2}
-  - {fileID: 11400000, guid: f609fb868ab1bf74cb07934de90ae027, type: 2}
-  - {fileID: 11400000, guid: 2997fb0c32e0dbb40983e7c3d2464dbb, type: 2}
+  - {fileID: 11400000, guid: 1a24c13dc15ba244bb9077111c9dc582, type: 2}
+  - {fileID: 11400000, guid: 31d7088fb41b7f145917508ed65f5286, type: 2}
+  - {fileID: 11400000, guid: 0050757642a5f4b48abde9500bb0de3d, type: 2}
   PlayerControlled: 1
   invasionActive: 0
   troopsInbound: 0

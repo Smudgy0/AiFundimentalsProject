@@ -59,12 +59,11 @@ public class PlanetIDGrabber : MonoBehaviour
         planet.invasionActive = false;
         planet.troopsInbound = false;
 
-        /* if (planet.name == "Ezec(Clone)") {
-            Debug.Log("Invade at start planet " + planet.name);
+        bool allNeighboursPlayerControlled = this.isAllNeighboursPlayerControlled();
+
+        if (!allNeighboursPlayerControlled) {
             planet.invasionActive = true;
-            planet.troopsInbound = false;
         }
-        */
 
         Debug.Log("on start " + planet.name + 
             " troopsInbound " + planet.troopsInbound +
@@ -151,26 +150,18 @@ public class PlanetIDGrabber : MonoBehaviour
                 Debug.Log(planet.name + " has been taken");
             }
 
-            // Check whether any neighboring planets are under enemy control
-            for (int i = 0; i < planet.ConnectedWorlds.Length; i++)
-            {
-                Planet current = InvasionMScript.findPlanet(planet.ConnectedWorlds[i].planetID);
 
-                if (!current.PlayerControlled) {
-                    allNeighboursPlayerControlled = false;
-                    planet.invasionActive = true;
-                    break;
-                }
-            }
+            bool allNeighboursPlayerControlled = this.isAllNeighboursPlayerControlled();
 
             if (allNeighboursPlayerControlled) {
                 planet.invasionActive = false;
+                CancelInvoke("AddEnemyTroops");
+                StopCoroutine("AddInvadingEnemyTroops");
             }
 
             // Set next planet to be attacked?
             if(planet.invasionActive == false)
             {
-                CancelInvoke("AddEnemyTroops");
                 StopCoroutine("AddInvadingEnemyTroops");
                 planet.eTroopCount = 0;
             }
@@ -279,5 +270,22 @@ public class PlanetIDGrabber : MonoBehaviour
         yield return new WaitForSeconds(5);
         planet.eTroopCount -= 100;
         planet.pTroopCount -= 100;
+    }
+
+    bool isAllNeighboursPlayerControlled()
+    {
+        bool allNeighboursPlayerControlled = true;
+
+        for (int i = 0; i < planet.ConnectedWorlds.Length; i++)
+        {
+            Planet current = InvasionMScript.findPlanet(planet.ConnectedWorlds[i].planetID);
+
+            if (!current.PlayerControlled) {
+                allNeighboursPlayerControlled = false;
+                break;
+            }
+        }
+
+        return allNeighboursPlayerControlled;
     }
 }
