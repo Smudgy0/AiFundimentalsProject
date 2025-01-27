@@ -23,6 +23,8 @@ public class PlanetIDGrabber : MonoBehaviour
 
     float Troopdif;
 
+    bool allNeighboursPlayerControlled = true;
+
     private void Awake()
     {
         UIM = FindAnyObjectByType<UiManager>();
@@ -57,11 +59,12 @@ public class PlanetIDGrabber : MonoBehaviour
         planet.invasionActive = false;
         planet.troopsInbound = false;
 
-        if (planet.name == "Ezec(Clone)") {
+        /* if (planet.name == "Ezec(Clone)") {
             Debug.Log("Invade at start planet " + planet.name);
             planet.invasionActive = true;
             planet.troopsInbound = false;
         }
+        */
 
         Debug.Log("on start " + planet.name + 
             " troopsInbound " + planet.troopsInbound +
@@ -148,8 +151,6 @@ public class PlanetIDGrabber : MonoBehaviour
                 Debug.Log(planet.name + " has been taken");
             }
 
-            bool allNeighboursPlayerControlled = true;
-
             // Check whether any neighboring planets are under enemy control
             for (int i = 0; i < planet.ConnectedWorlds.Length; i++)
             {
@@ -157,6 +158,7 @@ public class PlanetIDGrabber : MonoBehaviour
 
                 if (!current.PlayerControlled) {
                     allNeighboursPlayerControlled = false;
+                    planet.invasionActive = true;
                     break;
                 }
             }
