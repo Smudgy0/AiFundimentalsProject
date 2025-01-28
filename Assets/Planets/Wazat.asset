@@ -20,6 +20,7 @@ MonoBehaviour:
   enemyControl: 0
   ConnectedWorlds:
   - {fileID: 11400000, guid: 31d7088fb41b7f145917508ed65f5286, type: 2}
+  - {fileID: 11400000, guid: 2997fb0c32e0dbb40983e7c3d2464dbb, type: 2}
   PlayerControlled: 1
   invasionActive: 0
   troopsInbound: 0

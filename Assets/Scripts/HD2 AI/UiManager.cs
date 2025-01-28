@@ -14,6 +14,10 @@ public class UiManager : MonoBehaviour
     public TMP_Text EtroopCount;
     public TMP_Text alliedControl;
     public TMP_Text enemyControl;
+    public TMP_Text ResourceAmount;
+    public TMP_Text EnemeyAgressionText;
+    public TMP_Text DefenseMultText;
+    public TMP_Text ManpowerMultText;
 
     public int ID;
 
@@ -21,6 +25,7 @@ public class UiManager : MonoBehaviour
 
     public ManpowerManager MAM;
     public IDManager IDMAN;
+    public PlanetBonusModifer PBM;
 
     Vector2 mousePosition;
     Vector3 mousePositionInWorld;
@@ -94,14 +99,20 @@ public class UiManager : MonoBehaviour
 
         // Debug.Log("Updating text");
 
+        troopCount.text = currentlySelectedPlanet.pTroopCount.ToString();
         EtroopCount.text = currentlySelectedPlanet.eTroopCount.ToString();
         alliedControl.text = currentlySelectedPlanet.alliedControl.ToString();
         enemyControl.text = currentlySelectedPlanet.enemyControl.ToString();
+        ResourceAmount.text = PBM.Resources.ToString();
     }
 
     public void CheckManpower()
     {
         ManpowerText.SetText(MAM.Manpower.ToString());
+        ResourceAmount.SetText(PBM.Resources.ToString());
+        EnemeyAgressionText.SetText(PBM.EnemyAgression.ToString());
+        DefenseMultText.SetText(PBM.DefenseUpgrades.ToString());
+        ManpowerMultText.SetText(PBM.ManpowerUpgrades.ToString());
     }
 
     private void Update()

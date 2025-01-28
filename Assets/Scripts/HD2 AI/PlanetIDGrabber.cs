@@ -11,6 +11,7 @@ public class PlanetIDGrabber : MonoBehaviour
     public int PlanetObjectIdentifyer = 0;
 
     [SerializeField] InvasionManager InvasionMScript;
+    [SerializeField] PlanetBonusModifer PBM;
     private UiManager UIM;
     [SerializeField] GameObject[] ConnectedPlanets;
     [SerializeField] bool NotUI = true;
@@ -18,8 +19,12 @@ public class PlanetIDGrabber : MonoBehaviour
     public ManpowerManager MM;
 
     bool InvokeOngoing = false;
-    bool OngoingLosses = false;
+    bool OngoingLosses = true;
     int EnemySizePicker;
+    int AlliedLossPicker;
+
+    int EnemeyProgressMOD = 1;
+    int EnemeyAgressionMOD = 1;
 
     float Troopdif;
 
@@ -32,10 +37,11 @@ public class PlanetIDGrabber : MonoBehaviour
 
     private void Start()
     {
-
+        InvokeRepeating("ComabtLosses", 2, 2);
         if (NotUI == true)
         {
             InvokeRepeating("ManpowerCreation", 1, 1);
+            InvokeRepeating("ResourceCreation", 1, 1);
             for (int i = 0; i < ConnectedPlanets.Length; i++)
             {
                 GameObject LineClone = Instantiate(LR, Vector3.zero, Quaternion.identity);
@@ -73,10 +79,21 @@ public class PlanetIDGrabber : MonoBehaviour
 
     void Update()
     {
+
+        if(planet.eTroopCount < 0)
+        {
+            planet.eTroopCount = 0;
+        }
+        if (planet.pTroopCount < 0)
+        {
+            planet.pTroopCount = 0;
+        }
+
         EnemyTroops();
         LiveCombat();
 
         EnemySizePicker = Random.Range(0, 4);
+        AlliedLossPicker = Random.Range(0, 4);
 
         if (planet.invasionActive == true && planet.troopsInbound == false)
         {
@@ -95,15 +112,9 @@ public class PlanetIDGrabber : MonoBehaviour
         if (planet.eTroopCount > planet.pTroopCount)
         {
             Troopdif = planet.eTroopCount - planet.pTroopCount;
-            Troopdif = Troopdif / 1000000;
+            Troopdif = Troopdif / (1000000 * PBM.DefenseUpgrades);
             planet.alliedControl = planet.alliedControl - Troopdif;
             planet.enemyControl = planet.enemyControl + Troopdif;
-
-            if (OngoingLosses == false)
-            {
-                OngoingLosses = true;
-                StartCoroutine("ComabtLosses");
-            }
         }
 
         if (planet.pTroopCount > planet.eTroopCount)
@@ -112,12 +123,6 @@ public class PlanetIDGrabber : MonoBehaviour
             Troopdif = Troopdif / 1000000;
             planet.enemyControl = planet.enemyControl - Troopdif;
             planet.alliedControl = planet.alliedControl + Troopdif;
-
-            if (OngoingLosses == false)
-            {
-                OngoingLosses = true;
-                StartCoroutine("ComabtLosses");
-            }
         }
 
         if (planet.alliedControl > 100)
@@ -134,7 +139,6 @@ public class PlanetIDGrabber : MonoBehaviour
         {
             planet.enemyControl = 100;
             StopCoroutine("AddInvadingEnemyTroops");
-            OngoingLosses = true;
             StopCoroutine("ComabtLosses");
         }
 
@@ -198,6 +202,17 @@ public class PlanetIDGrabber : MonoBehaviour
         }
     }
 
+    void ResourceCreation()
+    {
+        if (NotUI == true)
+        {
+            if (planet.PlayerControlled == true)
+            {
+                PBM.AddResources();
+            }
+        }
+    }
+
     void ManpowerCreation()
     {
         if (NotUI == true)
@@ -228,17 +243,17 @@ public class PlanetIDGrabber : MonoBehaviour
     {
         if(EnemySizePicker == 1)
         {
-            planet.eTroopCount = planet.eTroopCount + 50;
+            planet.eTroopCount = planet.eTroopCount + (50 * PBM.EnemyAgression);
         }
 
         else if(EnemySizePicker == 2)
         {
-            planet.eTroopCount = planet.eTroopCount + 100;
+            planet.eTroopCount = planet.eTroopCount + (100 * PBM.EnemyAgression);
         }
 
         else if(EnemySizePicker == 3)
         {
-            planet.eTroopCount = planet.eTroopCount + 150;
+            planet.eTroopCount = planet.eTroopCount + (150 * PBM.EnemyAgression);
         }
     }
 
@@ -249,27 +264,167 @@ public class PlanetIDGrabber : MonoBehaviour
         yield return new WaitForSeconds(1);
         if(EnemySizePicker == 1)
         {
-            planet.eTroopCount = planet.eTroopCount + 10;
+            planet.eTroopCount = planet.eTroopCount + (10 * PBM.EnemyAgression);
         }
 
         else if(EnemySizePicker == 2)
         {
-            planet.eTroopCount = planet.eTroopCount + 25;
+            planet.eTroopCount = planet.eTroopCount + (25 * PBM.EnemyAgression);
         }
 
         else if(EnemySizePicker == 3)
         {
-            planet.eTroopCount = planet.eTroopCount + 50;
+            planet.eTroopCount = planet.eTroopCount + (50 * PBM.EnemyAgression);
         }
 
         planet.troopsInbound = false;
     }
 
-    IEnumerator ComabtLosses()
+    void ComabtLosses() // The "CombatLosses" function will check the planets enemy and allied troop values and compare them to see how many troops each side will lose every 2 seconds during combat
     {
-        yield return new WaitForSeconds(5);
-        planet.eTroopCount -= 100;
-        planet.pTroopCount -= 100;
+        Debug.Log("CombatLosses Read");
+
+        if (planet.eTroopCount != 0 && planet.pTroopCount != 0)
+        {
+            if (planet.eTroopCount > 0 && planet.pTroopCount > 0 && planet.pTroopCount > planet.eTroopCount * 2) // if these troop values are at 0 they will not go down but if the allied units in this case has 100% more troops than the enemy troops, they will do Significantly more damage to the enemy troops overall.
+            {
+                if (EnemySizePicker == 1)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 200;
+                }
+
+                if (EnemySizePicker == 2)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 250;
+                }
+
+                if (EnemySizePicker == 3)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 300;
+                }
+            }
+            else if (planet.eTroopCount > 0 && planet.pTroopCount > 0 && planet.pTroopCount > planet.eTroopCount * 1.5) // if these troop values are at 0 they will not go down but if the allied units in this case has 50% more troops than the enemy troops, they will do much more damage to the enemy troops overall.
+            {
+                if (EnemySizePicker == 1)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 75;
+                }
+
+                if (EnemySizePicker == 2)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 100;
+                }
+
+                if (EnemySizePicker == 3)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 125;
+                }
+            }
+            else if (planet.eTroopCount > 0 && planet.pTroopCount > 0 && planet.pTroopCount > planet.eTroopCount * 1.2) // if these troop values are at 0 they will not go down but if the allied units in this case has 20% more troops than the enemy troops, they will do more damage to the enemy troops overall.
+            {
+                if (EnemySizePicker == 1)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 25;
+                }
+
+                if (EnemySizePicker == 2)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 50;
+                }
+
+                if (EnemySizePicker == 3)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 75;
+                }
+            }
+            else // if the allied troops is not 20% higher than the enemy the loses the enemy takes will decrease
+            {
+                if (EnemySizePicker == 1)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 5;
+                }
+
+                if (EnemySizePicker == 2)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 10;
+                }
+
+                if (EnemySizePicker == 3)
+                {
+                    planet.eTroopCount = planet.eTroopCount - 15;
+                }
+            }
+
+            if (planet.pTroopCount > 0 && planet.eTroopCount > 0 && planet.eTroopCount > planet.pTroopCount * 2) // this check is the opposite to the above where instead if the enemy troops is 100% higher than the allied troops the allied troops will take Significantly more damge
+            {
+                if (AlliedLossPicker == 1)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 200;
+                }
+
+                if (AlliedLossPicker == 2)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 250;
+                }
+
+                if (AlliedLossPicker == 3)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 300;
+                }
+            }
+            else if (planet.pTroopCount > 0 && planet.eTroopCount > 0 && planet.eTroopCount > planet.pTroopCount * 1.5) // this check is the opposite to the above where instead if the enemy troops is 50% higher than the allied troops the allied troops will take much more damge
+            {
+                if (AlliedLossPicker == 1)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 75;
+                }
+
+                if (AlliedLossPicker == 2)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 100;
+                }
+
+                if (AlliedLossPicker == 3)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 125;
+                }
+            }
+            else if (planet.pTroopCount > 0 && planet.eTroopCount > 0 && planet.eTroopCount > planet.pTroopCount * 1.2) // this check is the opposite to the above where instead if the enemy troops is 20% higher than the allied troops the allied troops will take more damge
+            {
+                if (AlliedLossPicker == 1)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 25;
+                }
+
+                if (AlliedLossPicker == 2)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 50;
+                }
+
+                if (AlliedLossPicker == 3)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 75;
+                }
+            }
+            else // if enemy troops do not have 20% more units than the allied troops the allied troops take less losses
+            {
+                if (AlliedLossPicker == 1)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 5;
+                }
+
+                if (AlliedLossPicker == 2)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 10;
+                }
+
+                if (AlliedLossPicker == 3)
+                {
+                    planet.pTroopCount = planet.pTroopCount - 15;
+                }
+            }
+        }
+        OngoingLosses = true;
     }
 
     bool isAllNeighboursPlayerControlled()
