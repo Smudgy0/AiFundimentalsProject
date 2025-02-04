@@ -24,6 +24,7 @@ public class BulletTower : MonoBehaviour
         {
             lookAheadDirection = cloestBloonTDB.moveDelta * lookAheadAmount;
             cannonPivot.LookAt(cloestBloonTDB.transform.position + lookAheadDirection);
+            //cloestBloonTDB = null;
 
             if (!fired)
             {

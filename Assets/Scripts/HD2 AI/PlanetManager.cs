@@ -4,7 +4,7 @@ using NUnit.Framework.Internal;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlanetIDGrabber : MonoBehaviour
+public class PlanetManager : MonoBehaviour
 {
     public Planet planet;
 
@@ -28,21 +28,21 @@ public class PlanetIDGrabber : MonoBehaviour
 
     float Troopdif;
 
-    bool allNeighboursPlayerControlled = true;
+    bool allNeighboursPlayerControlled = true; // this bool value will be for checking if neighbouring planets are controlled by an enemy to tell the ai it can be attacked
 
     private void Awake()
     {
-        UIM = FindAnyObjectByType<UiManager>();
+        UIM = FindAnyObjectByType<UiManager>(); //gets the UI Manager
     }
 
     private void Start()
     {
-        InvokeRepeating("ComabtLosses", 2, 2);
-        if (NotUI == true)
+        InvokeRepeating("ComabtLosses", 2, 2); /// triggers the combat loses Function
+        if (NotUI == true) //checks if the objects "NotUI" value is true and if its true it will trigger a seperate function for each object
         {
             InvokeRepeating("ManpowerCreation", 1, 1);
             InvokeRepeating("ResourceCreation", 1, 1);
-            for (int i = 0; i < ConnectedPlanets.Length; i++)
+            for (int i = 0; i < ConnectedPlanets.Length; i++) // checks every worlds
             {
                 GameObject LineClone = Instantiate(LR, Vector3.zero, Quaternion.identity);
                 LineRenderer lr = LineClone.GetComponent<LineRenderer>();
@@ -53,7 +53,7 @@ public class PlanetIDGrabber : MonoBehaviour
 
         InvasionMScript.SetupPlanets();
 
-        for (int i = 0; i < InvasionMScript.ListOfPlanets.Length; i++)
+        for (int i = 0; i < InvasionMScript.ListOfPlanets.Length; i++) // a check to ensure that the array has the correct planet ID's
         {
             if (PlanetObjectIdentifyer == InvasionMScript.ListOfPlanets[i].planetID)
             {
@@ -62,12 +62,12 @@ public class PlanetIDGrabber : MonoBehaviour
             }
         }
 
-        planet.invasionActive = false;
-        planet.troopsInbound = false;
+        planet.invasionActive = false; // the bool to determine if an enemy invasion is ongoing
+        planet.troopsInbound = false; // a bool to ensure the function doesn't run more than once
 
         bool allNeighboursPlayerControlled = this.isAllNeighboursPlayerControlled();
 
-        if (!allNeighboursPlayerControlled) {
+        if (!allNeighboursPlayerControlled) { // this if statement will use the function above to check if all planets neigbouring the planet running this script is allied controlled or not, if its not then an invasion will occur
             planet.invasionActive = true;
         }
 
@@ -79,8 +79,12 @@ public class PlanetIDGrabber : MonoBehaviour
 
     void Update()
     {
+        if (!allNeighboursPlayerControlled) // allways checks if the "allNeighboursPlayerControlled" value is false so the ai can start an invasion
+        {
+            planet.invasionActive = true;
+        }
 
-        if(planet.eTroopCount < 0)
+        if (planet.eTroopCount < 0)
         {
             planet.eTroopCount = 0;
         }
@@ -88,19 +92,20 @@ public class PlanetIDGrabber : MonoBehaviour
         {
             planet.pTroopCount = 0;
         }
+        // these if statements prevents the troops on the planet on either side from going below 0
 
-        EnemyTroops();
-        LiveCombat();
+        EnemyTroops(); // runs the function which checks if the ai can invade the world and if they can "invasionActive" is set to true
+        LiveCombat(); // runs the function for planet combat
 
         EnemySizePicker = Random.Range(0, 4);
         AlliedLossPicker = Random.Range(0, 4);
 
-        if (planet.invasionActive == true && planet.troopsInbound == false)
+        if (planet.invasionActive == true && planet.troopsInbound == false) // checks if the ai can send troops to the world
         {
             Debug.Log("Adding troops" + planet.name);
             StartCoroutine("AddInvadingEnemyTroops");
         }
-        else if (planet.invasionActive == false)
+        else if (planet.invasionActive == false) // if not it canceles any invading troops to the planet to ensure that if a planet is cut off for the ai they can't send any troops to it from another.
         {
             StopCoroutine("AddInvadingEnemyTroops");
             planet.troopsInbound = false;
@@ -125,58 +130,62 @@ public class PlanetIDGrabber : MonoBehaviour
             planet.alliedControl = planet.alliedControl + Troopdif;
         }
 
-        if (planet.alliedControl > 100)
+        /* These calculations above check the difference between the ai's troops and the player troops on any given world and
+         * calculates the % value the planets control will shift, if the ai has more the control % will shift in their favour
+         * otherwise the control % will shift in the favour of the player.
+        */ 
+
+        if (planet.alliedControl > 100) // prevents player control going above 100
         {
             planet.alliedControl = 100;
         }
 
-        else if (planet.alliedControl < 0)
+        else if (planet.alliedControl < 0) // prevents player control going below 0
         {
             planet.alliedControl = 0;
         }
 
-        if (planet.enemyControl > 100)
+        if (planet.enemyControl > 100) // prevents enemy control going above 100 and disabling invading forces in prepareation for the ai's factories on the planet to start working
         {
             planet.enemyControl = 100;
             StopCoroutine("AddInvadingEnemyTroops");
             StopCoroutine("ComabtLosses");
         }
 
-        else if (planet.enemyControl < 0)
+        else if (planet.enemyControl < 0) // prevents enemy control going below 0
         {
             planet.enemyControl = 0;
         }
 
-        if (planet.alliedControl == 100)
+        if (planet.alliedControl == 100) // this if statement checks if the player control is 100%.
         {
-            if (!planet.PlayerControlled)
+            if (!planet.PlayerControlled) // this if statement checks if the planet was not player controlled before sending a message in the debug console to say its been taken
             {
                 Debug.Log(planet.name + " has been taken");
             }
 
 
-            bool allNeighboursPlayerControlled = this.isAllNeighboursPlayerControlled();
+            bool allNeighboursPlayerControlled = this.isAllNeighboursPlayerControlled(); // runs the bool function to check if its neighbours are under allied control or not
 
-            if (allNeighboursPlayerControlled) {
+            if (allNeighboursPlayerControlled) { // if it finds that all neighbours are controlled by the player the ai will stop its attacks on the planet
                 planet.invasionActive = false;
                 CancelInvoke("AddEnemyTroops");
                 StopCoroutine("AddInvadingEnemyTroops");
             }
 
-            // Set next planet to be attacked?
-            if(planet.invasionActive == false)
+            if(planet.invasionActive == false) // this if statement ensures that if the planet is unable to be invaded by checking if the invasionActive bool is false
             {
                 StopCoroutine("AddInvadingEnemyTroops");
                 planet.eTroopCount = 0;
             }
-            planet.PlayerControlled = true;
+            planet.PlayerControlled = true; // sets the planet to be controlled by the player
             OngoingLosses = true;
             StopCoroutine("ComabtLosses");
         }
         
-        if (planet.enemyControl == 100)
+        if (planet.enemyControl == 100) // if the game detects the ai has seized full controll of the planet it will set the planets player control bool to false and then it checks its neighbours to write in the debug console that a attack is incoming for that planet
         {
-            if (planet.PlayerControlled)
+            if (planet.PlayerControlled) // checks if the planet was player controlled before as the player may have taken 10% from the ai and the ai took it back.
             {
                 Debug.Log(planet.name + " has fallen");
 
@@ -202,7 +211,7 @@ public class PlanetIDGrabber : MonoBehaviour
         }
     }
 
-    void ResourceCreation()
+    void ResourceCreation() // this function runs the resoureManager script to add resources for the player
     {
         if (NotUI == true)
         {
@@ -213,7 +222,7 @@ public class PlanetIDGrabber : MonoBehaviour
         }
     }
 
-    void ManpowerCreation()
+    void ManpowerCreation() // this function runs the manpowerManager script to add manpower for the player
     {
         if (NotUI == true)
         {
@@ -227,19 +236,19 @@ public class PlanetIDGrabber : MonoBehaviour
 
     void EnemyTroops()
     {
-        if (planet.PlayerControlled == false && InvokeOngoing == false)
+        if (planet.PlayerControlled == false && InvokeOngoing == false) // this if statment checks if the planet is not player controll and if its not the ai will start focusing its army their
         {
             InvokeRepeating("AddEnemyTroops", 1, 2);
             Debug.Log("readEnemyTroops");
             InvokeOngoing = true;
         }
-        else if (planet.PlayerControlled == true && InvokeOngoing == false)
+        else if (planet.PlayerControlled == true && InvokeOngoing == false) // this else if statement checks if the planet is controlled by the player and disables the invokeOngoing bool to allow the planet to trigger another invasion by the ai if needed.
         {
             InvokeOngoing = false;
         }
     }
 
-    void AddEnemyTroops()
+    void AddEnemyTroops() // this function runs if a planet is fully controlled by the ai meaning they can send more troops to its defense compared to sending troops to an invasion, this value is also effected by a difficulty modifer
     {
         if(EnemySizePicker == 1)
         {
@@ -257,11 +266,11 @@ public class PlanetIDGrabber : MonoBehaviour
         }
     }
 
-    IEnumerator AddInvadingEnemyTroops()
+    IEnumerator AddInvadingEnemyTroops() // this function runs if there is an invasion ongoing on the planet where the ai sends less troops to it due to the lack of control on the planet, this also is effected by a difficulty modifer
     {
 
-        planet.troopsInbound = true;
-        yield return new WaitForSeconds(1);
+        planet.troopsInbound = true; // this bool prevents this function from triggering more than once
+        yield return new WaitForSeconds(1); // waits 1 second until the enemy ai adds troops.
         if(EnemySizePicker == 1)
         {
             planet.eTroopCount = planet.eTroopCount + (10 * PBM.EnemyAgression);
@@ -427,7 +436,7 @@ public class PlanetIDGrabber : MonoBehaviour
         OngoingLosses = true;
     }
 
-    bool isAllNeighboursPlayerControlled()
+    bool isAllNeighboursPlayerControlled() // this function will go through the array starting with setting the value of "allNeighboursPlayerControlled" to true and then running through the array and if any planet is not player control the ai will attack the planet running this script
     {
         bool allNeighboursPlayerControlled = true;
 

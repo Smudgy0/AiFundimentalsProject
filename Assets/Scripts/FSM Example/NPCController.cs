@@ -39,9 +39,9 @@ public class NPCController : MonoBehaviour
 
     private void Awake()
     {
-        agent = FindAnyObjectByType<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         timeController = FindAnyObjectByType<TimeController>();
-        animator = FindAnyObjectByType<Animator>();
+        animator = GetComponent<Animator>();
         UIM = FindAnyObjectByType<NPCUI>();
     }
 

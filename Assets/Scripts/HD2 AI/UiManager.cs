@@ -59,7 +59,7 @@ public class UiManager : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                if(hit.collider.TryGetComponent<PlanetIDGrabber>(out PlanetIDGrabber PIG))
+                if(hit.collider.TryGetComponent<PlanetManager>(out PlanetManager PIG))
                 {
                     currentlySelectedPlanet = PIG.planet;
                     OpenUI();

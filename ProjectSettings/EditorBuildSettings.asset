@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Waypoint Example.unity
     guid: 07abdf4b4d744b54da3a2e0002f90d4c
   - enabled: 1
-    path: Assets/Scenes/TestScene.unity
+    path: Assets/Scenes/Basic Combat Example.unity
     guid: 18456a52499581d40afbdf9ec8b46428
   - enabled: 1
     path: Assets/Scenes/Rigidbody Following.unity
@@ -26,6 +26,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NavmeshExample.unity
     guid: 7544b4c1ed9a7564ba271c4b10b4c307
+  - enabled: 1
+    path: Assets/Scenes/Baloons.unity
+    guid: 685251771e8738544ac0c5dcea18d1e0
+  - enabled: 1
+    path: Assets/Scenes/FSM Example.unity
+    guid: 95b4607aad00143439439d931c1a57e7
+  - enabled: 1
+    path: Assets/Scenes/StrategyAI.unity
+    guid: e130fdd5ae286bc4cbb7ec889a834a47
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0

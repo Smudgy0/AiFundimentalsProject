@@ -24,5 +24,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0050757642a5f4b48abde9500bb0de3d, type: 2}
   - {fileID: 11400000, guid: ab4e099704119a547a4c5706d6d6d1d9, type: 2}
   PlayerControlled: 0
-  invasionActive: 0
+  invasionActive: 1
   troopsInbound: 0
