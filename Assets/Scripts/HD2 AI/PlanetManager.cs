@@ -164,7 +164,6 @@ public class PlanetManager : MonoBehaviour
                 Debug.Log(planet.name + " has been taken");
             }
 
-
             bool allNeighboursPlayerControlled = this.isAllNeighboursPlayerControlled(); // runs the bool function to check if its neighbours are under allied control or not
 
             if (allNeighboursPlayerControlled) { // if it finds that all neighbours are controlled by the player the ai will stop its attacks on the planet
